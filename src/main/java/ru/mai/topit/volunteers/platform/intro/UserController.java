@@ -4,42 +4,42 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.mai.topit.volunteers.platform.intro.dto.GetUserDto;
-import ru.mai.topit.volunteers.platform.intro.service.HelloService;
+import ru.mai.topit.volunteers.platform.intro.entity.User;
+import ru.mai.topit.volunteers.platform.intro.service.UserService;
 
-import java.util.Map;
+import java.util.List;
 
 @RestController
-@RequestMapping("api/v1")
+@RequestMapping("api/v1/users")
 @Slf4j
 @RequiredArgsConstructor
-public class HelloController {
-    private final HelloService helloService;
+public class UserController {
+    private final UserService userService;
 
-    @GetMapping()
-    public int sayHello() {
-        return helloService.getNumber();
+    @GetMapping
+    public List<User> findAll() {
+        return userService.findAll();
     }
 
-    @PostMapping("/to-name")
-    public String sayHelloPost(@RequestBody String name) {
-        return "Hello " + name;
+    @GetMapping("/{name}")
+    public User findByName(@PathVariable String name) {
+        return userService.findByName(name);
     }
 
-    @PostMapping("/to-name/{name}")
-    public String sayHelloPostTo(@PathVariable("name") String name) {
-        return "Hello " + name;
+    @PutMapping
+    public User update(@RequestBody User user) {
+        return userService.update(user);
     }
 
-    @GetMapping("/params")
-    public Map<String, String> selectByParams(@RequestParam Map<String, String> params) {
-        return params;
+    @DeleteMapping("/{id}")
+    public ResponseEntity delete(@PathVariable Integer id) {
+        userService.delete(id);
+
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping
-    public ResponseEntity getRequestBodyInJson(@RequestBody GetUserDto dto) {
-        log.info("Get request body: {}", dto);
-
-        return ResponseEntity.status(400).body(dto);
+    public User create(@RequestBody User user) {
+        return userService.save(user);
     }
 }

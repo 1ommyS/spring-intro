@@ -3,19 +3,18 @@
     container_name: postgresDb
     image: postgres:16.0
     environment:
-      POSTGRES_USER: userinfo
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: userinfo_db
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: test
     healthcheck:
       test: /usr/bin/pg_isready
       interval: 5s
       timeout: 10s
       retries: 120
     ports:
-      - '25432:5432'
-      - '6432:5432'
+      - '5432:5432'
     volumes:
-      - postgres-data-user-info:/var/lib/postgresql/data
+      - postgres-data-test:/var/lib/postgresql/data
     networks:
       - shared
 
@@ -28,9 +27,9 @@
       - --searchPath=/changesets
       - --changelog-file=db.changelog-master.yaml
       - --driver=org.postgresql.Driver
-      - --url=jdbc:postgresql://postgres-db:5432/userinfo_db
-      - --username=userinfo
-      - --password=password
+      - --url=jdbc:postgresql://postgres-db:5432/test
+      - --username=test
+      - --password=test
       - update
     volumes:
       - ./changelog:/changesets
@@ -38,4 +37,4 @@
       - shared
 
 volumes:
-  postgres-data-user-info:
+  postgres-data-test:

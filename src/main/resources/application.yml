@@ -1,1 +1,14 @@
-spring.application.name=spring-demo
+spring.application.name: spring-demo
+server:
+  port: 8081
+
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/test
+    username: test
+    password: test
+    hikari:
+      maximum-pool-size: 15
+      pool-name: db
+      connection-timeout: 10000
